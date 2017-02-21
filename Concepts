@@ -1,0 +1,17 @@
+
+As DBSCAN is very sensitive to eps and MinPts parameters, OPTICS is less prone to this pitfall.
+
+Like DBSCAN, OPTICS also requires epsilon and minPts. But unlike DBSCAN, OPTICS finds heirarchy of clusters i.e, dense clusters within a bigger cluster.This is based on an observation than for a given minPts lesser epsilon will result in denser clusters, which are contained inside those cluster defined by a larger epsilon value.
+
+For a give minPts and epsilon value, we define two distances:
+  1) Core distance: min distance (which should be less than epsilon) value which covers given minPts. It is undefined if N.eps(p)<minPts (outliers)
+  2) Reachability Distance: If a point q is core object (an object with defined core distance), then reachability distance of p from q is: max{core_distance(q),dist(p,q)}. Larger the reachability distance of p from q, farther apart p is from q's cluster. If q is not a core object then it has no reachability distance.
+  
+  Though we provide both parameters to OPTICS just like DBSCAN, its less dependant, as bigger epsilon will result in all points having a defined core distance, thus using reachability distance we would get heirarchy of clusters.
+  
+Idea: 
+Since points belonging to a cluster will have low reachability distance to their nearest neighbour, plotting reachability distance in order, we can see valley which point to clusters, thus visually we can visualize cluster structures. Thus we can then choose optimal epsilon by looking at graph based on granularity of cluster required. Also its less dependant on minPts as it return almost similar results for differnet minPts.
+  
+Note: 
+N.eps(p) : Epsilon neighborhood of p
+Refer pseudocode in wikepedia for more clear explanation.
